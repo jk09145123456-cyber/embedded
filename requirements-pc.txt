@@ -1,0 +1,6 @@
+faster-whisper
+numpy
+scipy
+setuptools<81
+tensorflow
+tensorflow-hub
