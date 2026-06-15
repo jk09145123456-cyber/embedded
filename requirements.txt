@@ -1,2 +1,0 @@
--r requirements-pc.txt
--r requirements-pi.txt
