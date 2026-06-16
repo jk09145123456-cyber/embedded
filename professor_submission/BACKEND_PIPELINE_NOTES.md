@@ -1224,16 +1224,23 @@ else
 ```cpp
 void handleCommand(String command) {
   command.trim();
+  uint8_t newPriority = commandPriority(command);
 
   if (patternActive && command == activeCommand) {
     return;
   }
 
-  if (patternActive && millis() - patternStartedAt < MIN_PATTERN_HOLD_MS) {
+  if (newPriority == 0) {
     return;
   }
 
-  if (patternActive && activePriority >= 3 && commandPriority(command) < activePriority) {
+  if (patternActive &&
+      millis() - patternStartedAt < MIN_PATTERN_HOLD_MS &&
+      newPriority <= activePriority) {
+    return;
+  }
+
+  if (patternActive && activePriority >= 3 && newPriority < activePriority) {
     return;
   }
 
@@ -1257,20 +1264,28 @@ void handleCommand(String command) {
 
 ```text
 command.trim()
-- Raspberry Pi가 보낸 문자열 끝의 줄바꿈을 제거한다.
+- Raspberry Pi가 보낸 명령 문자열의 앞뒤 공백과 줄바꿈을 제거한다.
+
+newPriority = commandPriority(command)
+- 새 명령의 우선순위를 미리 계산한다.
+- 알 수 없는 명령은 우선순위가 0이므로 처리하지 않는다.
 
 patternActive && command == activeCommand
 - 현재 실행 중인 명령과 같은 명령이면 무시한다.
 - 같은 패턴이 계속 재시작되는 것을 막는다.
 
 millis() - patternStartedAt < MIN_PATTERN_HOLD_MS
-- 현재 패턴이 시작된 지 최소 유지 시간이 지나지 않았으면 새 명령을 무시한다.
-- 알림이 너무 짧게 끊기지 않게 한다.
+- 현재 패턴이 시작된 지 최소 유지 시간이 지나지 않았는지 확인한다.
+- 이 시간 안에서는 현재 이벤트보다 우선순위가 높은 명령만 예외적으로 전환한다.
+- 예를 들어 LEFT_TURN 실행 중 SIREN이 들어오면 SIREN으로 전환된다.
+
+newPriority <= activePriority
+- 새 명령의 우선순위가 현재 알림보다 같거나 낮으면 최소 유지 시간 안에서는 무시한다.
 
 activePriority >= 3
 - 현재 실행 중인 알림이 과속 경고 이상의 안전 이벤트인지 확인한다.
 
-commandPriority(command) < activePriority
+newPriority < activePriority
 - 새 명령의 우선순위가 현재 알림보다 낮으면 무시한다.
 
 LEFT_TURN
