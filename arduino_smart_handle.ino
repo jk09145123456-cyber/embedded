@@ -191,19 +191,27 @@ void updatePattern() {
 void handleCommand(String command) {
   // Raspberry Pi는 명령 뒤에 줄바꿈을 붙여 보내므로 앞뒤 공백과 줄바꿈을 제거한다.
   command.trim();
+  uint8_t newPriority = commandPriority(command);
 
   // 같은 명령이 반복해서 들어오면 패턴을 다시 시작하지 않는다.
   if (patternActive && command == activeCommand) {
     return;
   }
 
-  // 알림이 너무 짧게 끊기지 않도록 최소 유지 시간 동안은 새 명령을 무시한다.
-  if (patternActive && millis() - patternStartedAt < MIN_PATTERN_HOLD_MS) {
+  // 알 수 없는 명령은 출력 패턴으로 처리하지 않는다.
+  if (newPriority == 0) {
+    return;
+  }
+
+  // 최소 유지 시간 중에는 현재 이벤트보다 우선순위가 높은 명령만 예외적으로 전환한다.
+  if (patternActive &&
+      millis() - patternStartedAt < MIN_PATTERN_HOLD_MS &&
+      newPriority <= activePriority) {
     return;
   }
 
   // 사이렌, 비명, 경적 같은 위험 알림은 방향 안내보다 우선한다.
-  if (patternActive && activePriority >= 3 && commandPriority(command) < activePriority) {
+  if (patternActive && activePriority >= 3 && newPriority < activePriority) {
     return;
   }
 
