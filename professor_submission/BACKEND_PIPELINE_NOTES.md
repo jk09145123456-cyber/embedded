@@ -902,8 +902,8 @@ EVENT_PRIORITY = {
     Event.LEFT_TURN: 2,
     Event.SPEED_WARNING: 3,
     Event.HORN: 4,
-    Event.SCREAM: 5,
-    Event.SIREN: 6,
+    Event.SIREN: 5,
+    Event.SCREAM: 6,
 }
 ```
 
@@ -912,11 +912,11 @@ EVENT_PRIORITY = {
 ```text
 숫자가 클수록 더 중요한 이벤트이다.
 
-SIREN
+SCREAM
 - 가장 높은 우선순위이다.
 
-SCREAM
-- 비명도 위험 상황이므로 높은 우선순위이다.
+SIREN
+- 사이렌도 위험 상황이므로 높은 우선순위이다.
 
 HORN
 - 경적은 주변 차량 위험을 의미한다.
@@ -951,7 +951,7 @@ max(..., key=EVENT_PRIORITY.get)
 예시
 - stt_event = LEFT_TURN
 - sound_event = SIREN
-- SIREN의 우선순위가 더 높으므로 SIREN을 반환한다.
+- SIREN은 방향 안내보다 우선순위가 높으므로 SIREN을 반환한다.
 ```
 
 ## 3-4. Whisper 모델 실행

@@ -32,8 +32,8 @@ EVENT_PRIORITY = {
     Event.LEFT_TURN: 2,
     Event.SPEED_WARNING: 3,
     Event.HORN: 4,
-    Event.SCREAM: 5,
-    Event.SIREN: 6,
+    Event.SIREN: 5,
+    Event.SCREAM: 6,
 }
 
 # 음성 인식 결과에서 찾을 한국어 안내 문구이다.
