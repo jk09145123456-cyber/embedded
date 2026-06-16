@@ -123,9 +123,9 @@ void stopOutputs() {
 
 // 위험도가 높은 이벤트가 낮은 이벤트보다 우선 실행되도록 점수를 정한다.
 uint8_t commandPriority(const String &command) {
-  // 사이렌은 보행자에게 가장 즉각적인 위험이 될 수 있어 가장 높은 우선순위를 둔다.
-  if (command == "SIREN") return 6;
-  if (command == "SCREAM") return 5;
+  // 비명은 보행자 위험 신호일 수 있어 가장 높은 우선순위를 둔다.
+  if (command == "SCREAM") return 6;
+  if (command == "SIREN") return 5;
   if (command == "HORN") return 4;
   if (command == "SPEED_WARNING") return 3;
   if (command == "LEFT_TURN" || command == "RIGHT_TURN") return 1;
