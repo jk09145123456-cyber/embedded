@@ -376,8 +376,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--port", type=int, default=8000)
 
     # Whisper 모델 설정이다. Colab GPU에서는 medium/cuda/float16 조합을 사용할 수 있다.
-    parser.add_argument("--whisper-model", default="small")
-    parser.add_argument("--whisper-device", choices=("cpu", "cuda"), default="cpu")
+    parser.add_argument("--whisper-model", default="medium")
+    parser.add_argument("--whisper-device", choices=("cpu", "cuda"), default="cuda")
     parser.add_argument("--whisper-compute-type", default="int8")
 
     # 감지 민감도와 분석 창 길이 설정이다.
