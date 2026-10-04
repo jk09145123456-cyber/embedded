@@ -39,8 +39,8 @@ from concurrent.futures import ThreadPoolExecutor
 # 별도 웹 프레임워크 없이 간단한 HTTP 서버를 만들기 위해 사용한다.
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
-# 실제 AI 모델과 이벤트 판단 함수는 ai_logic.py에 모아 두었다.
-from ai_logic import (
+# 실제 AI 모델과 이벤트 판단 함수는 server/ai_logic.py에 모아 두었다.
+from server.ai_logic import (
     EVENT_PRIORITY,
     WhisperTranscriber,
     YamnetClassifier,
@@ -51,7 +51,7 @@ from ai_logic import (
 )
 
 # Raspberry Pi 코드와 같은 이벤트 이름, 같은 샘플레이트를 사용한다.
-from raspberry_main import Event, SAMPLE_RATE
+from common.protocol import SAMPLE_RATE, Event
 
 
 class AiService:

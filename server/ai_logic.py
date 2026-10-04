@@ -6,7 +6,7 @@ from __future__ import annotations
 이 파일을 따로 분리한 이유:
 - pc_ai_server.py는 HTTP 요청 처리와 서버 실행을 담당한다.
 - ai_logic.py는 AI 모델 호출 결과를 실제 이벤트로 바꾸는 판단 로직을 담당한다.
-- 이렇게 나누면 서버 코드와 AI 판단 코드를 따로 읽을 수 있어 제출용으로 구조가 더 명확하다.
+- 이렇게 나누면 서버 코드와 AI 판단 코드를 따로 읽고 테스트할 수 있다.
 
 현재 사용하는 AI 방식:
 1. Whisper: 한국어 안내 음성을 텍스트로 변환한다.
@@ -21,7 +21,7 @@ import logging
 from typing import Iterable
 
 # Raspberry Pi 코드와 같은 이벤트 이름을 쓰기 위해 가져온다.
-from raspberry_main import Event
+from common.protocol import Event
 
 
 # 숫자가 클수록 더 위험한 이벤트이다.
